@@ -1,0 +1,50 @@
+#hf
+
+pip install -U huggingface_hub
+export HF_ENDPOINT=https://hf-mirror.com
+huggingface-cli download --resume-download <model_name> --local-dir <local_dir> --local-dir-use-symlinks False
+huggingface-cli download --repo-type dataset --resume-download <dataset_name> --local-dir <local_dir> 
+
+
+# pip
+
+pip install vllm -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+
+
+# pydebug 
+github: https://github.com/yuanzhoulvpi2017/vscode_debug_transformers
+
+pip install debugpy -U
+
+import debugpy
+try:
+    # 5678 is the default attach port in the VS Code debug configurations. Unless a host and port are specified, host defaults to 127.0.0.1
+    debugpy.listen(("localhost", 9501))
+    print("Waiting for debugger attach")
+    debugpy.wait_for_client()
+except Exception as e:
+    pass
+
+{
+            "name": "sh_file_debug",
+            "type": "debugpy",
+            "request": "attach",
+            "connect": {
+                "host": "localhost",
+                "port": 9501
+            }
+        },
+
+
+
+# tokenizer
+
+tokenizer = LlamaTokenizer.from_pretrained(model_name)
+tokenizer.add_special_tokens(
+    {
+        
+        "pad_token": "<PAD>",
+    }
+)
+model.resize_token_embeddings(model.config.vocab_size + 1) 
